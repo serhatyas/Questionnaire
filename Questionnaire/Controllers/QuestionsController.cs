@@ -40,8 +40,8 @@ namespace Questionnaire.Controllers
                 model.Customer = db.Customers.FirstOrDefault(x => x.CustomerGuid == customerguid);
                 var anket = db.CustomerAnswers.Where(x => x.CustomerId == model.Customer.Id && x.DepartmentId == model.Department.Id).ToList();
 
-                //if (anket.Count == 0)
-                //{
+                if (anket.Count == 0)
+                {
 
                     model.QustionVM = new QuestionVM()
                     {
@@ -53,12 +53,12 @@ namespace Questionnaire.Controllers
                     model.Questions = db.Questions.Where(x => departmenQuiz.Contains(x.Id) && x.IsPassive == false && x.IsDeleted == false && x.LangId == model.Language.Id && x.CompanyGuid == model.Company.CompanyGuid).ToList();
                     model.Answers = db.Answers.Where(x => departmenQuiz.Contains(x.QuestionId) && x.IsPassive == false && x.IsDeleted == false && x.LangId == model.Language.Id).ToList();
                 return View(model);
-            //}
+            }
 
-            //    else
-            //{
-            //    return Redirect("/ErrorPage/AnsweredQuestions");
-            //}
+                else
+            {
+                return Redirect("/ErrorPage/AnsweredQuestions");
+            }
 
 
         }
