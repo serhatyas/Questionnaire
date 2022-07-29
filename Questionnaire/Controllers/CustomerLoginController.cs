@@ -35,6 +35,11 @@ namespace Questionnaire.Controllers
                 
                 if (CurrentCompany != null)
                 {
+                    //if (CurrentUser.CompanyGuid != model.Company.CompanyGuid)
+                    //{
+                    //    TempData["Error"] = "Şirket seçiminiz hatalı. Lütfen doğru departmanı seçiniz.";
+                    //    return Redirect("/Admin/login");
+                    //}
                     FormsAuthentication.SetAuthCookie(CurrentCompany.Id.ToString(), true);
                     return Redirect("/start/"+ CurrentCompany.CompanyGuid+"/"+ CurrentCompany.CustomerGuid);
                 }
