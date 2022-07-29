@@ -1,0 +1,151 @@
+﻿@model Questionnaire.Models.ServiceModel.ServiceModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var ankets = Model.CustomerAnswers.GroupBy(x => new { x.CustomerId, x.DepartmentId, x.Date.Value });
+}
+<section id="dashboard-ecommerce" style="margin-top:30px">
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-sm-2 col-12 dashboard-users-success">
+                    <div class="card text-center">
+                        <div class="card-content">
+                            <div class="card-body py-1">
+                                <div class="badge-circle badge-circle-lg badge-circle-light-primary mx-auto mb-50">
+                                    <i class="bx bx-highlight font-medium-5"></i>
+                                </div>
+                                <div class="text-muted line-ellipsis">Toplam Müşteriler</div>
+                                <h3 class="mb-0">@Model.Customers.Count()</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-12 dashboard-users-success">
+                    <div class="card text-center">
+                        <div class="card-content">
+                            <div class="card-body py-1">
+                                <div class="badge-circle badge-circle-lg badge-circle-light-primary mx-auto mb-50 ">
+                                    <i class="bx bx-highlight font-medium-5"></i>
+                                </div>
+                                <div class="text-muted line-ellipsis">Toplam Cevaplanan Anket</div>
+                                <h3 class="mb-0">@ankets.Count()</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-12 dashboard-users-success">
+                    <div class="card text-center">
+                        <div class="card-content">
+                            <div class="card-body py-1">
+                                <div class="badge-circle badge-circle-lg badge-circle-light-primary mx-auto mb-50">
+                                    <i class="bx bx-highlight font-medium-5"></i>
+                                </div>
+                                <p class="text-muted mb-0 line-ellipsis"></p>
+                                <div class="text-muted line-ellipsis">Toplam Soru Havuzu</div>
+                                <h3 class="mb-0">@Model.Questions.Count() </h3>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-12 dashboard-users-success">
+                    <div class="card text-center">
+                        <div class="card-content">
+                            <div class="card-body py-1">
+                                <div class="badge-circle badge-circle-lg badge-circle-light-primary mx-auto mb-50 ">
+                                    <i class="bx bx-highlight font-medium-5"></i>
+                                </div>
+                                <div class="text-muted line-ellipsis">Toplam Kullanıcı</div>
+                                <h3 class="mb-0">@Model.SystemUsers.Count()</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-12 dashboard-users-success">
+                    <div class="card text-center">
+                        <div class="card-content">
+                            <div class="card-body py-1">
+                                <div class="badge-circle badge-circle-lg badge-circle-light-primary mx-auto mb-50">
+                                    <i class="bx bx-highlight font-medium-5"></i>
+                                </div>
+                                <div class="text-muted line-ellipsis">Toplam Şirket</div>
+                                <h3 class="mb-0">@Model.Companies.Count() </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="cursor:pointer" class="col-sm-2 col-12 dashboard-users-success">
+                    <div class="card text-center">
+                        <div class="card-content">
+                            <div class="card-body py-1">
+                                <div class="badge-circle badge-circle-lg badge-circle-light-primary mx-auto mb-50 ">
+                                    <i class="bx bx-highlight font-medium-5"></i>
+                                </div>
+                                <div class="text-muted line-ellipsis">Toplam Dil</div>
+
+                                <h3 class="mb-0">@Model.Languages.Count()</h3>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <table class="table table-striped myTable">
+                        <thead>
+                            <tr>
+                                <th>Müşteri Adı</th>
+                                <th>Müşteri Soyadı</th>
+                                <th>Müşteri Telefon</th>
+                                <th>Müşteri Mail</th>
+                                <th>Departman</th>
+                                <th>Tarih</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ankets.OrderByDescending(x => x.Key.Value))
+                            {
+                                var customer = Model.Customers.FirstOrDefault(x => x.Id == item.Key.CustomerId);
+                                var departmen = Model.Departments.FirstOrDefault(x => x.Id == item.Key.DepartmentId);
+
+                                <tr>
+                                    <td>@customer.Name.ToUpper()</td>
+                                    <td>@customer.Surname.ToUpper()</td>
+                                    <td>@customer.Phone</td>
+                                    <td>@customer.Mail</td>
+                                    <td>@departmen.Title</td>
+                                    <td>@item.Key.Value.ToString("dd MMMM yyyy hh:mm")</td>
+                                    <td><a href="/admin/customerAnswers/index?custommerId=@item.Key.CustomerId&departmentId=@item.Key.DepartmentId" class="btn btn-primary">Detaylar</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+
+    <script>
+        $(document).ready(function myfunction() {
+            $(".myTable").DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json",
+                },
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ],
+                responsive: false,
+                pageLength: 25,
+                ordering: false
+            });
+        })
+
+
+    </script>
+}

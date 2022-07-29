@@ -1,0 +1,39 @@
+﻿@media screen and (max-width: 991px) {
+    .navbarCss, .viewContent{
+        padding: 0;
+    }
+
+    .paddingCss {
+        padding: 20px 10px;
+    }
+
+    .containerCss {
+        width:100%;
+        float:left;
+        margin: 0 ;
+    }
+
+    .mt-130 {
+        margin: 103px 0 0 0 !important;
+    }
+
+    .width100{
+        width:100%;
+    }
+
+    .card, .boxShadow{
+        box-shadow:none;
+    }
+
+}
+
+@media screen and (max-width: 540px) {
+    .imgCss img {
+        height: 94px;
+    }
+
+    .ul-0 {
+        padding: 32px 0;
+    }
+
+}

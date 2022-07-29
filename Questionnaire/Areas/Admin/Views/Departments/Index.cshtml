@@ -1,0 +1,178 @@
+﻿@model Questionnaire.Models.ServiceModel.ServiceModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    string activeClass = "";
+
+
+    ZXing.QrCode.QrCodeEncodingOptions options = new ZXing.QrCode.QrCodeEncodingOptions();
+    options = new ZXing.QrCode.QrCodeEncodingOptions
+    {
+        DisableECI = true,
+        CharacterSet = "UTF-8",
+        Width = 250,
+        Height = 250,
+    };
+    var writer = new ZXing.BarcodeWriter();
+    writer.Format = ZXing.BarcodeFormat.QR_CODE;
+    writer.Options = options;
+
+}
+
+<div class="content-header row">
+    <div class="content-header-left col-12 mb-2 mt-1">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h5 class="content-header-title float-left pr-1 mb-0">Departmanlar</h5>
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb p-0 mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="/admin/departments"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <a href="/admin/departments">Departmanlar</a>
+                        </li>
+
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section id="nav-filled">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+
+                <div class="card-content">
+                    <div class="card-body">
+
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+                            @for (int i = 0; i < Model.Languages.Count; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    activeClass = "active";
+                                }
+                                <li class="nav-item">
+                                    <a class="nav-link @activeClass" data-toggle="tab" href="#@("Language"+Model.Languages[i].Id)" role="tab" aria-controls="home-fill" aria-selected="true">
+                                        @Model.Languages[i].Name
+                                    </a>
+                                </li>
+                                activeClass = "";
+
+                            }
+
+
+                        </ul>
+
+                        <!-- Tab panes -->
+
+                        <div class="tab-content pt-1">
+
+
+                            @for (int i = 0; i < Model.Languages.Count; i++)
+                            {
+
+                                if (i == 0)
+                                {
+                                    activeClass = "active";
+                                }
+                                <div class="tab-pane @activeClass" id="@("Language"+Model.Languages[i].Id)" role="tabpanel" aria-labelledby="@("Language"+Model.Languages[i].Id)">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Departmanlar</h4>
+                                        <div class="d-flex justify-content-end">
+                                            <div class="pull-right">
+                                                <a href="/admin/departments/create?langid=@Model.Languages[i].Id" class="btn btn-success mr-2">Yeni Departman Ekle</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped dataex-html5-selectors">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>QR</th>
+                                                    <th>Icon</th>
+                                                    <th>Başlık</th>
+                                                    <th>Tip</th>
+                                                    <th class="text-center" colspan="3">İşlemler</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+
+                                                @foreach (var item in Model.Departments.Where(x => x.LangId == Model.Languages[i].Id).ToList())
+                                                {
+                                                    var qr = new ZXing.BarcodeWriter();
+                                                    qr.Options = options;
+                                                    qr.Format = ZXing.BarcodeFormat.QR_CODE;
+                                                    var bImage = new System.Drawing.Bitmap(qr.Write("https://" + HttpContext.Current.Request.Url.Authority + "/step1/" + Model.CurrentUser.CompanyGuid + "/" + item.DepartmenGuid + "/" + Model.Languages[i].Code + ""));
+                                                    System.IO.MemoryStream ms = new MemoryStream();
+                                                    bImage.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                                                    byte[] byteImage = ms.ToArray();
+                                                    <tr>
+
+                                                        <td>@(i + 1)</td>
+                                                        <td title="@item.Title"> <a download="@(item.Title.ToLower()+"-qrcode")" href="#" title="@item.Title"> <img alt="@item.Title" title="@item.Title" height="100" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String( byteImage))" /></a></td>
+                                                        <td><img src="@item.Icon" height="75" /></td>
+
+                                                        <td><a target="_blank" style="text-decoration:underline" href="@("https://" +HttpContext.Current.Request.Url.Authority+"/step1/"+Model.CurrentUser.CompanyGuid+"/"+item.DepartmenGuid+"/"+ Model.Languages[i].Code+ "")">@item.Title</a></td>
+                                                        <td>@(item.ParentId==0?"Departman":"Bölüm")</td>
+                                                        <td width="180"><a href="/admin/departments/update/@item.Id" class="btn btn-primary">Düzenle</a></td>
+                                                        @if (item.IsPassive == true)
+                                                        {
+
+                                                            <td width="180"><button onclick="btnPassive(@item.Id, '/admin/departments/passive')" class="btn btn-success">Aktif Et</button></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td width="180"><button onclick="btnPassive(@item.Id, '/admin/departments/passive')" class="btn btn-danger">Pasif et</button></td>
+
+                                                        }
+                                                        <td width="80"><button onclick="btnDelete(@item.Id, '/admin/departments/delete')" type="submit" class="btn btn-danger">Sil</button></td>
+                                                    </tr>
+                                                }
+
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Icon</th>
+                                                    <th>Başlık</th>
+                                                    <th>Tip</th>
+                                                    <th class="text-center" colspan="3">İşlemler</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                                activeClass = "";
+                            }
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="col-lg-4 col-md-6 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="card-title">
+                            Default
+                        </h6>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div id="default-treeview"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+    </div>
+
+</section>

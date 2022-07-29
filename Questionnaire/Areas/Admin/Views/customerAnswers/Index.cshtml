@@ -1,0 +1,89 @@
+﻿@model Questionnaire.Models.ServiceModel.ServiceModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="content-header row">
+    <div class="content-header-left col-12 mb-2 mt-1">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h5 class="content-header-title float-left pr-1 mb-0">Müşteri Cevapları</h5>
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb p-0 mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="/admin/dashboard"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <a href="/admin/dashboard">@Model.Customer.Name @Model.Customer.Surname -- @Model.Department.Title</a>
+                        </li>
+
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section id="nav-filled">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+
+                <div class="card-content">
+                    <div class="card-body">
+
+                       <table class="table table-hover table-striped table-bordered">
+                           <thead>
+                               <tr>
+                                   <th>Soru</th>
+                                   <th>Cevap</th>
+                                   <th>Görsel</th>
+                                   <th>Açıklama</th>
+                               </tr>
+                           </thead>
+                           <tbody>
+                               @foreach (var item in Model.DepartmentQuestions)
+                               {
+
+                                   var CustomerAnswer = Model.CustomerAnswers.FirstOrDefault(x => x.QuestionId == item.QuestionId);
+                                   var question = Model.Questions.FirstOrDefault(x => x.Id == item.QuestionId);
+                                   if (question.IsDeleted == false && question.IsPassive == false)
+                                   {
+                               <tr>
+                                   <td>@question.Content</td>
+                                   @if (CustomerAnswer != null)
+                                   {
+                                       var path = Model.QuestionPaths.FirstOrDefault(x => x.CustomerAnswersId == CustomerAnswer.Id);
+                                       var answer = Model.Answers.FirstOrDefault(x => x.Id == CustomerAnswer.AnswerId);
+                                       <td><strong>@Html.Raw(answer.Content)</strong></td>
+                                       <td>
+                                           <img style="height:75px;" src="@path.Path" alt="Alternate Text" />
+                                       </td>
+                                       <td>
+                                           <p>
+                                               @path.Description
+                                           </p>
+                                       </td>
+
+                                   }
+                                   else
+                                   {
+                                       <td><strong style="color: #dc3545">BOŞ GEÇİLDİ</strong></td>
+                                       <td><strong style="color: #dc3545">BOŞ GEÇİLDİ</strong></td>
+                                       <td><strong style="color: #dc3545">BOŞ GEÇİLDİ</strong></td>
+                                   }
+                               </tr>
+                                   }
+
+                               }
+                           </tbody>
+                       </table>
+
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,34 @@
+﻿@model Questionnaire.Models.ServiceModel.ServiceModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="viewContent text-center">
+    <div class="card-header">
+        <h5 class="card-title mb-1">Lütfen Dil Seçiniz</h5>
+        <h5 class="card-title mb-1">Please Select Language</h5>
+        <h5 class="card-title mb-1">
+            Пожалуйста, выберите язык
+        </h5>
+    </div>
+    <div style="text-align: center;" class="card-content">
+        <div class="card-body">
+            <div class="col-12">
+                <div class="justify-content-center">
+                    <div class="row">
+                        @foreach (var item in Model.Languages)
+                        {
+                        <div class="col-lg mb-3">
+                            <a style="cursor:pointer" onclick="window.location.href = '/step/@Model.Company.CompanyGuid.ToLower()/@Model.Customer.CustomerGuid.ToLower()/@item.Code.ToLower()'" title="/step/@Model.Company.CompanyGuid.ToLower()/@Model.Customer.CustomerGuid.ToLower()/@item.Code.ToLower()'" class="col-sm-4 divHover mt-1">
+                                <img class="ImgBoxShadow" width="200" src="@item.Image" />
+                            </a>
+                        </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

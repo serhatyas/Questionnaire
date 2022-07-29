@@ -1,0 +1,172 @@
+﻿@model Questionnaire.Models.ServiceModel.ServiceModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-header row">
+    <div class="content-header-left col-12 mb-2 mt-1">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h5 class="content-header-title float-left pr-1 mb-0">Gizli Müşteri</h5>
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb p-0 mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="/admin/CustomerCreation"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <a href="/admin/CustomerCreation">Gizli Müşteri</a>
+                        </li>
+
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section id="nav-filled">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-content">
+                    <form enctype="multipart/form-data" action="/admin/CustomerCreation/Create" method="post" class="card-body">
+                        @Html.HiddenFor(x => x.Customer.Id)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Adı</label>
+                                    @Html.TextBoxFor(x => x.Customer.Name, new { @class = "form-control", required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Soyadı</label>
+                                    @Html.TextBoxFor(x => x.Customer.Surname, new { @class = "form-control", required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Mail</label>
+                                    @Html.TextBoxFor(x => x.Customer.Mail, new { @class = "form-control", required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Şifre</label>
+                                    @Html.TextBoxFor(x => x.Customer.Password, new { @class = "form-control", required = "required", type = "Password" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Telefon</label>
+                                    @Html.TextBoxFor(x => x.Customer.Phone, new { @class = "form-control", required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Müşteri Tipi</label>
+                                    <div class="form-group">
+                                        @Html.DropDownListFor(x => x.Customer.TypeId, new SelectList(Model.customerTypes, "Id", "TypeName"), "Müşteri Tipi Seçiniz", new { @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.customerType.TypeName)
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Müşteri Tipi</label>
+                                        <div class="form-group">
+                                            @Html.DropDownListFor(x => x.Customer.CompanyGuid, new SelectList(Model.Companies, "Id", "Name"), "Şirket Seçiniz", new { @class = "form-control", required = "required" })
+                                            @Html.ValidationMessageFor(x => x.Company.Name)
+                                        </div>
+                                    </div>
+                                </div>*@
+
+                            <div class="col-md-12 ">
+                                <div class="form-group">
+                                    <label>Şirket</label>
+                                    <select class="js-example-basic-multiple" name="Companies" multiple="multiple">
+                                        @foreach (var item in Model.Companies)
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12">
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-success" style="width:200px">Kaydet</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+
+    <script src="https://cdn.ckeditor.com/4.16.0/full-all/ckeditor.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.js-example-basic-multiple').select2({ width: '100%' });
+
+            CKEDITOR.replace('Question.Content', {
+                toolbar: 'Full',
+                toolbar_Full:
+                    [
+                        { name: 'document', items: ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates'] },
+                        { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
+                        { name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'SpellChecker', 'Scayt'] },
+                        {
+                            name: 'forms', items: ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton',
+                                'HiddenField']
+                        },
+                        '/',
+                        { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
+                        {
+                            name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv',
+                                '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
+                        },
+                        { name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
+                        { name: 'insert', items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
+                        '/',
+                        { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+                        { name: 'colors', items: ['TextColor', 'BGColor'] },
+                        { name: 'tools', items: ['Maximize', 'ShowBlocks', '-', 'About'] }
+                    ],
+                extraPlugins: 'iframe',
+                enterMode: CKEDITOR.ENTER_BR,
+                shiftEnterMode: CKEDITOR.ENTER_P,
+                filebrowserBrowseUrl: 'assets/plugins/ckfinder/ckfinder.html',
+                filebrowserUploadUrl: 'assets/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'
+            });
+
+            $("#btnCreateAnswer").click(function () {
+                $("#answerTabs").append(`   <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <label>Cevap</label>
+                                            <input type="text" name="Answers" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <input type="button" class="btn btn-danger mt-2 currentAnswer" value="Sil" />
+                                        </div>
+                                    </div>
+                                </div>`);
+            });
+
+        })
+        $(document).on("click", ".currentAnswer", function () {
+            $(this).parent().parent().parent().remove();
+
+        })
+
+    </script>
+}

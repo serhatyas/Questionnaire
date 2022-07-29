@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="91c921bf96c74b1f96947f85512d680c" Name="Diagram1" ZoomLevel="77">
+        <EntityTypeShape EntityType="ozyeranketdbModel.Answers" Width="1.5" PointX="5.25" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ozyeranketdbModel.CustomerAnswers" Width="1.5" PointX="5.25" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="ozyeranketdbModel.DepartmentQuestions" Width="1.5" PointX="8.25" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ozyeranketdbModel.Departments" Width="1.5" PointX="3" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ozyeranketdbModel.Languages" Width="1.5" PointX="0.75" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="ozyeranketdbModel.LanguageValues" Width="1.5" PointX="3" PointY="18" IsExpanded="true" />
+        <EntityTypeShape EntityType="ozyeranketdbModel.SystemUsers" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <AssociationConnector Association="ozyeranketdbModel.FK_Answers_Languages" ManuallyRouted="false" />
+        <AssociationConnector Association="ozyeranketdbModel.FK_CustomerAnswers_Departments" ManuallyRouted="false" />
+        <AssociationConnector Association="ozyeranketdbModel.FK_DepartmentQuestions_Departments" ManuallyRouted="false" />
+        <AssociationConnector Association="ozyeranketdbModel.FK_Departments_Languages" ManuallyRouted="false" />
+        <AssociationConnector Association="ozyeranketdbModel.FK_LanguageValues_Languages" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ozyeranketdbModel.CustomerType" Width="1.5" PointX="5.375" PointY="2" />
+        <EntityTypeShape EntityType="ozyeranketdbModel.Customers" Width="1.5" PointX="7.625" PointY="1" />
+        <AssociationConnector Association="ozyeranketdbModel.FK_Customers_CustomerType" />
+        <EntityTypeShape EntityType="ozyeranketdbModel.Companies" Width="1.5" PointX="3" PointY="8.875" />
+        <AssociationConnector Association="ozyeranketdbModel.FK_Companies_Languages" />
+        <EntityTypeShape EntityType="ozyeranketdbModel.Questions" Width="1.5" PointX="3" PointY="21.75" />
+        <AssociationConnector Association="ozyeranketdbModel.FK_Answers_Questions" />
+        <AssociationConnector Association="ozyeranketdbModel.FK_DepartmentQuestions_Questions" />
+        <AssociationConnector Association="ozyeranketdbModel.FK_Questions_Languages" />
+        <EntityTypeShape EntityType="ozyeranketdbModel.QuestionPath" Width="1.5" PointX="7.5" PointY="14" />
+        <AssociationConnector Association="ozyeranketdbModel.FK_QuestionPath_Questions" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

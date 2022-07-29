@@ -1,0 +1,97 @@
+﻿@model Questionnaire.Models.ServiceModel.ServiceModel
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-header row">
+    <div class="content-header-left col-12 mb-2 mt-1">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h5 class="content-header-title float-left pr-1 mb-0">Şirketler</h5>
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb p-0 mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="/admin/Companies"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <a href="/admin/Companies">Şirketler</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section id="nav-filled">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+
+                <div class="card-content">
+                    <form enctype="multipart/form-data" action="/admin/Companies/create" method="post" class="card-body">
+                        @Html.HiddenFor(x => x.Company.Id)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Şirket Başlık</label>
+                                    @Html.TextBoxFor(x => x.Company.CompanyGuid, new { @class = "form-control", required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Şirket Adı</label>
+                                    @Html.TextBoxFor(x => x.Company.Name, new { @class = "form-control", required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Telefon Numarası</label>
+                                    @Html.TextBoxFor(x => x.Company.Phone1, new { @class = "form-control", required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>2. Telefon Numarası</label>
+                                    @Html.TextBoxFor(x => x.Company.Phone2, new { @class = "form-control", required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Mail</label>
+                                    @Html.TextBoxFor(x => x.Company.Mail, new { @class = "form-control", required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Web Sitesi</label>
+                                    @Html.TextBoxFor(x => x.Company.Website, new { @class = "form-control", required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Adres</label>
+                                    @Html.TextBoxFor(x => x.Company.Address, new { @class = "form-control", required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Logo</label>
+                                    <input type="file" class="form-control" readonly name="Logo" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="d-flex justify-content-end">
+                                    <button class="btn btn-success" style="width:200px">Kaydet</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

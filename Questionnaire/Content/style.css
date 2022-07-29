@@ -1,0 +1,163 @@
+﻿body, h1 {
+    font-family: "Raleway", sans-serif;
+    background-color: #ffffff !important;
+}
+
+.bg-full-screen-images {
+    background: url(../../uploads/bg.jpg) no-repeat center center;
+    background-size: cover;
+}
+
+.row0 {
+    margin: 0;
+}
+
+.containerCss{
+    max-width:1140px;
+    margin:0 auto;
+}
+
+.navbarCss {
+    background: #b88E6B;
+}
+
+.ul-0 {
+    margin: 0 10px 0 0;
+    float: right;
+    padding: 43px 0;
+}
+
+    .ul-0 li{
+        float:left;
+    }
+
+.ul-1 {
+    margin: 0;
+    float: left;
+    padding-left: 20px;
+}
+
+.UINavbar {
+    padding: 0 1rem !important;
+}
+
+.UIHeader {
+    left: 0 !important;
+}
+
+.mr-10{
+    margin-right:10px;
+}
+
+.viewContent {
+    display: block;
+    padding: 0 20px;
+}
+
+.imgCss {
+    color: #fff !important;
+    padding: 6px 0px;
+}
+
+.imgCss img{
+    height:110px;
+}
+
+.mr-0-Auto{
+    margin:0 auto !important;
+}
+
+.mt-15{
+    margin-top:150px;
+}
+
+.Box-Align{
+    text-align:center;
+}
+
+.mt-130 {
+    margin: 180px 20px 0 20px;
+}
+
+.boxShadow {
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+}
+
+.ImgBoxShadow {
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    height: 133px;
+}
+
+.divHover {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .4s ease-in-out;
+}
+
+.divHover:hover {
+    -webkit-transform: scale(1.05);
+    transform: scale(1.05);
+}
+
+.post-img img {
+    height: 220px !important;
+}
+
+.imgHeight img {
+    height: 120px;
+}
+
+ul.content-list.info-list b {
+    float: left;
+    width: 100%;
+}
+
+.demo-wrapper.text-center ul li {
+    float: left;
+    width: 25%;
+    height: 110px;
+    list-style: none;
+}
+
+    .demo-wrapper.text-center ul li img {
+        height: 100%;
+    }
+
+.StyleH3 {
+    margin-bottom: 6.25rem;
+}
+
+.fontStyle1 ul li a {
+    font-size: 18px;
+}
+
+.fontStyle1 p {
+    font-size: 1rem;
+}
+
+.blogClassStyle {
+    display: none;
+}
+
+    .blogClassStyle:nth-child(1), .blogClassStyle:nth-child(2), .blogClassStyle:nth-child(3) {
+        display: block;
+    }
+
+.imgHeight {
+    text-align: center;
+}
+
+    .imgHeight img {
+        width: 212px !important;
+        height: 109px !important;
+    }
+
+.borderCss {
+    border-bottom: 1px solid #dcdcdc;
+    margin-top: 2.2rem;
+}
+
+.HeaderMarginCss{
+    margin:20px 0 !important;
+}

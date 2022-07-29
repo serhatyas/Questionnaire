@@ -1,0 +1,127 @@
+﻿@model Questionnaire.Models.ServiceModel.ServiceModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-header row">
+    <div class="content-header-left col-12 mb-2 mt-1">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h5 class="content-header-title float-left pr-1 mb-0">Kullanıcılar</h5>
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb p-0 mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="/admin/systemuser"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <a href="/admin/systemuser">Kullanıcılar</a>
+                        </li>
+
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section id="nav-filled">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-content">
+                    <form enctype="multipart/form-data" action="/admin/Systemuser/Create" method="post" class="card-body">
+                        @Html.HiddenFor(x => x.SystemUser.Id)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Adı</label>
+                                    @Html.TextBoxFor(x => x.SystemUser.Name, new { @class = "form-control", required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Soyadı</label>
+                                    @Html.TextBoxFor(x => x.SystemUser.Surname, new { @class = "form-control", required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Mail</label>
+                                    @Html.TextBoxFor(x => x.SystemUser.Mail, new { @class = "form-control", required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Şifre</label>
+                                    @Html.TextBoxFor(x => x.SystemUser.Password, new { @class = "form-control", required = "required", type = "Password" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Telefon</label>
+                                    @Html.TextBoxFor(x => x.SystemUser.Phone, new { @class = "form-control", required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Doğumm Günü</label>
+                                    <fieldset class="form-group position-relative has-icon-left">
+                                        @Html.TextBoxFor(x => x.SystemUser.JobStartDate, new
+                                        {
+                                            @class = "form-control pickadate-months-year",
+                                            type = "date",
+                                            required = "required",
+                                            placeholder = "Doğum tarihi"
+                                        })
+                                        <div class="form-control-position">
+                                            <i class='bx bx-calendar'></i>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>İş Başlangıç Tarihi</label>
+                                    <fieldset class="form-group position-relative has-icon-left">
+                                        @Html.TextBoxFor(x => x.SystemUser.BirthDate, new
+                                        {
+                                            @class = "form-control pickadate-months-year",
+                                            type = "date",
+                                            required = "required",
+                                            placeholder = "İşe Başlama Tarihi"
+                                        })
+                                        <div class="form-control-position">
+                                            <i class='bx bx-calendar'></i>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="controls">
+                                        <label>Super Admin</label>
+                                        <div class="controls">
+                                            <div class="checkbox">
+                                                @Html.CheckBoxFor(x => x.SystemUser.SuperAdmin, new { @class = "checkbox-input", id = "users-checkbox1" })
+                                                <label for="users-checkbox1"></label>
+                                                @Html.ValidationMessageFor(x => x.SystemUser.SuperAdmin)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-success" style="width:200px">Kaydet</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+

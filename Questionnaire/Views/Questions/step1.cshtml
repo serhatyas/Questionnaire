@@ -1,0 +1,110 @@
+﻿    @model Questionnaire.Models.ServiceModel.ServiceModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="viewContent">
+    <div class="card">
+        <div class="card-header paddingCss text-center">
+            <div class="d-flex justify-content-center">
+
+                <img style="max-height:150px" src="@Model.Company.Logo" />
+
+            </div>
+            <h5 class="card-title HeaderMarginCss">@Model.LangValuesDictionary["CustomerFeedback"]</h5>
+            <p class="card-text">
+                Anketimize Hoş Geldiniz <strong>@Model.Customer.Name.ToUpper() @Model.Customer.Surname.ToUpper()</strong> Bey <br />
+                @Model.LangValuesDictionary["CustomerFeedbackDesc"]
+            </p>
+        </div>
+        <div class="card-content">
+            <div class="card-body paddingCss">
+                <form class="form" action="/survey/completed" method="post" enctype="multipart/form-data">
+                    @Html.HiddenFor(x => x.QustionVM.CompanyGuid)
+                    @Html.HiddenFor(x => x.QustionVM.Language)
+                    @Html.HiddenFor(x => x.QustionVM.DepartmenGuid)
+                    @Html.HiddenFor(x => x.Customer.CustomerGuid)
+
+                    @{ int counter = 1;}
+                    @foreach (var question in Model.Questions.OrderBy(x => x.Queue).ToList())
+                    {
+
+                        <section class="radio-glow borderCss">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">@(counter+".") @Html.Raw(question.Content)</h4>
+                                        </div>
+                                        <div class="card-content">
+                                            <div class="card-body">
+                                                <ul class="list-unstyled mb-0">
+                                                    @{ 
+                                                        string answerName = "";
+                                                        
+                                                        string answerid = "";
+                                                        
+                                                        string questName = "";
+
+                                                        string documents = "";
+
+                                                        string description = "";
+
+                                                        }
+
+                                                    @foreach (var answer in Model.Answers.Where(x => x.QuestionId == question.Id).ToList())
+
+                                                    {
+
+                                                        answerid = "answerid" + answer.Id;
+                                                        answerName = "answer" + question.Id;
+                                                        questName = "quest" + question.Id;
+                                                        documents = "documents" + question.Id;
+                                                        description = "description" + question.Id;
+
+                                                        <li class="d-inline-block mr-2 mb-1 width100">
+                                                            <fieldset>
+                                                                <div class="radio radio-primary radio-glow">
+                                                                    <input value="@answer.Id" type="radio" id="@answerid" name="@questName">
+                                                                    <label for="@answerid">@answer.Content</label>
+                                                                </div>
+                                                            </fieldset>
+                                                        </li>
+                                                    }
+
+                                                </ul>
+                                                <div class="row">
+
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label>Belge</label>
+                                                                <input type="file" class="form-control"  name="@documents" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label>Açıklama</label>
+                                                                <input name="@description" class="form-control" />
+                                                                @*@Html.TextBoxFor(x=>x.questionPath.Description, new { @class = "form-control" })*@
+                                                            </div>
+                                                        </div>                                                     
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        counter = counter + 1;
+                    }
+                    <div class="mt-2">
+                        <button type="submit" class="btn btn-success">Anketi Bitir</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,174 @@
+﻿@model Questionnaire.Models.ServiceModel.ServiceModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    string activeClass = "";
+}
+
+
+<div class="content-header row">
+    <div class="content-header-left col-12 mb-2 mt-1">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h5 class="content-header-title float-left pr-1 mb-0">Sorular</h5>
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb p-0 mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="/admin/questions"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <a href="/admin/questions">Sorular</a>
+                        </li>
+
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section id="nav-filled">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+
+                <div class="card-content">
+                    <div class="card-body">
+
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+                            @for (int i = 0; i < Model.Languages.Count; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    activeClass = "active";
+                                }
+                                <li class="nav-item">
+                                    <a class="nav-link @activeClass" data-toggle="tab" href="#@("Language"+Model.Languages[i].Id)" role="tab" aria-controls="home-fill" aria-selected="true">
+                                        @Model.Languages[i].Name
+                                    </a>
+                                </li>
+                                activeClass = "";
+
+                            }
+
+
+                        </ul>
+
+                        <!-- Tab panes -->
+
+                        <div class="tab-content pt-1">
+
+
+                            @for (int i = 0; i < Model.Languages.Count; i++)
+                            {
+
+                                if (i == 0)
+                                {
+                                    activeClass = "active";
+                                }
+                                <div class="tab-pane @activeClass" id="@("Language"+Model.Languages[i].Id)" role="tabpanel" aria-labelledby="@("Language"+Model.Languages[i].Id)">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Sorular</h4>
+                                        <div class="d-flex justify-content-end">
+                                            <div class="pull-right">
+                                                <a href="/admin/questions/create?langid=@Model.Languages[i].Id" class="btn btn-success mr-2">Yeni Soru Ekle</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped dataex-html5-selectors">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Öncelik</th>
+                                                    <th>Başlık</th>
+                                                    <th>Departman/Bölüm</th>
+                                                    <th class="text-center" colspan="3">İşlemler</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+
+                                                @foreach (var item in Model.Questions.Where(x => x.LangId == Model.Languages[i].Id).ToList())
+                                                {
+
+                                                    <tr>
+
+                                                        <td>@(i + 1)</td>
+                                                        <th>@item.Queue</th>
+                                                        <th>@item.Content</th>
+
+                                                        <th>
+
+                                                            <div class="btn-group mb-1">
+                                                                <div class="dropdown">
+                                                                    <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        Departman/Bölüm
+                                                                    </button>
+                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 39px, 0px);">
+
+                                                                        @foreach (var departmentName in Model.DepartmentQuestions.Where(x => x.QuestionId == item.Id).ToList())
+
+                                                                        {
+
+                                                                            var Departmentss = Model.Departments.FirstOrDefault(x => x.Id == departmentName.DepartmentId);
+
+                                                                            if (Departmentss != null)
+                                                                            {
+                                                                                <a class="dropdown-item" href="#">@Departmentss.Title</a>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <a style="display:none;" class="dropdown-item" href="#">Boş</a>
+                                                                            }
+
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </th>
+
+
+
+                                                        <td width="180"><a href="/admin/questions/update/@item.Id" class="btn btn-primary">Düzenle</a></td>
+                                                        @if (item.IsPassive == true)
+                                                        {
+
+                                                            <td width="180"><button onclick="btnPassive(@item.Id, '/admin/questions/passive')" class="btn btn-success">Aktif Et</button></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td width="180"><button onclick="btnPassive(@item.Id, '/admin/questions/passive')" class="btn btn-danger">Pasif et</button></td>
+
+                                                        }
+                                                        <td width="80"><button onclick="btnDelete(@item.Id, '/admin/questions/delete')" type="submit" class="btn btn-danger">Sil</button></td>
+                                                    </tr>
+
+                                                }
+
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Öncelik</th>
+                                                    <th>Başlık</th>
+                                                    <th>Departman/Bölüm</th>
+                                                    <th class="text-center" colspan="3">İşlemler</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                                activeClass = "";
+                            }
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

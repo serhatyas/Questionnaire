@@ -1,0 +1,168 @@
+﻿@model Questionnaire.Models.ServiceModel.ServiceModel
+@{
+    ViewBag.Title = "create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="content-header row">
+    <div class="content-header-left col-12 mb-2 mt-1">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h5 class="content-header-title float-left pr-1 mb-0">Sorular</h5>
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb p-0 mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="/admin/questions"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <a href="/admin/questions/create?langid=@Model.Language.Id">Soru</a>
+                        </li>
+
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section id="nav-filled">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+
+                <div class="card-content">
+                    <form enctype="multipart/form-data" action="/admin/questions/create" method="post" class="card-body">
+                        @Html.HiddenFor(x => x.Language.Id)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Soru Sırası</label>
+                                    @Html.TextBoxFor(x => x.Question.Queue, new { @class = "form-control", @Type = "number", placeholder = "1" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Skor</label>
+                                    @Html.TextBoxFor(x => x.Question.Score, new { @class = "form-control", @Type = "number", placeholder = "20" })
+                                </div>
+                            </div>
+                            <div class="col-md-12 ">
+                                <div class="form-group">
+                                    <label>Departman</label>
+                                    <select class="js-example-basic-multiple" name="departments" multiple="multiple">
+                                        @foreach (var item in Model.Departments)
+                                        {
+                                            <option value="@item.Id">@item.Title (@item.CompanyGuid/@item.DepartmenGuid)</option>
+
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Soru</label>
+                                    <textarea class="form-control" required="required" rows="3" name="Question.Content"></textarea>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12">
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" id="btnCreateAnswer" class="btn btn-success">Cevap Ekle</button>
+                                </div>
+                            </div>
+                            <hr />
+                        </div>
+                        <div id="answerTabs">
+                            <div class="row">
+
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label>Cevap</label>
+                                        <input type="text" name="Answers" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input type="button" class="btn btn-danger mt-2 currentAnswer" value="Sil" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="d-flex justify-content-end">
+                                <button type="submit"  class="btn btn-success">Soru Kaydet</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section scripts{
+
+    <script src="https://cdn.ckeditor.com/4.16.0/full-all/ckeditor.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.js-example-basic-multiple').select2({ width: '100%' });
+
+            CKEDITOR.replace('Question.Content', {
+                toolbar: 'Full',
+                toolbar_Full:
+                    [
+                        { name: 'document', items: ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates'] },
+                        { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
+                        { name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'SpellChecker', 'Scayt'] },
+                        {
+                            name: 'forms', items: ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton',
+                                'HiddenField']
+                        },
+                        '/',
+                        { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
+                        {
+                            name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv',
+                                '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
+                        },
+                        { name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
+                        { name: 'insert', items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
+                        '/',
+                        { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+                        { name: 'colors', items: ['TextColor', 'BGColor'] },
+                        { name: 'tools', items: ['Maximize', 'ShowBlocks', '-', 'About'] }
+                    ],
+                extraPlugins: 'iframe',
+                enterMode: CKEDITOR.ENTER_BR,
+                shiftEnterMode: CKEDITOR.ENTER_P,
+                filebrowserBrowseUrl: 'assets/plugins/ckfinder/ckfinder.html',
+                filebrowserUploadUrl: 'assets/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'
+            });
+
+            $("#btnCreateAnswer").click(function () {
+                $("#answerTabs").append(`   <div class="row">
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label>Cevap</label>
+                                        <input type="text" name="Answers" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input type="button" class="btn btn-danger mt-2 currentAnswer" value="Sil" />
+                                    </div>
+                                </div>
+                            </div>`);
+            });
+           
+        })
+        $(document).on("click", ".currentAnswer", function () {
+            $(this).parent().parent().parent().remove();
+
+        })
+
+    </script>
+}

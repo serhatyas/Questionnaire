@@ -1,0 +1,93 @@
+﻿@model Questionnaire.Models.ServiceModel.ServiceModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var anketsRep = Model.CustomerAnswers.GroupBy(x => new { x.CustomerId, x.DepartmentId, x.Date.Value });
+}
+
+
+<div class="content-header row">
+    <div class="content-header-left col-12 mb-2 mt-1">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h5 class="content-header-title float-left pr-1 mb-0">Sürücüler</h5>
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb p-0 mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="/drivers/"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <a href="/drivers/">Sürücüler</a>
+                        </li>
+
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content-body">
+
+    <div class="table-responsive">
+        <table class="table table-striped myTable">
+            <thead>
+                <tr>
+                    <th>Müşteri</th>
+                    <th>Müşteri Telefon</th>
+                    <th>Müşteri Mail</th>
+                    <th>Departman</th>
+                    <th>Tarih</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in anketsRep.OrderByDescending(x => x.Key.Value))
+                {
+                    var customer = Model.Customers.FirstOrDefault(x => x.Id == item.Key.CustomerId);
+                    var departmen = Model.Departments.FirstOrDefault(x => x.Id == item.Key.DepartmentId);
+
+                    <tr>
+                        <td>@customer.Name.ToUpper() @customer.Surname.ToUpper()</td>
+                        <td>@customer.Phone</td>
+                        <td>@customer.Mail</td>
+                        <td>@departmen.Title</td>
+                        <td>@item.Key.Value.ToString("dd MMMM yyyy hh:mm")</td>
+                        <td><a href="/admin/customerAnswers/index?custommerId=@item.Key.CustomerId&departmentId=@item.Key.DepartmentId" class="btn btn-primary">Detaylar</a></td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Müşteri</th>
+                    <th>Müşteri Telefon</th>
+                    <th>Müşteri Mail</th>
+                    <th>Departman</th>
+                    <th>Tarih</th>
+                    <th>İşlemler</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
+@section scripts{
+
+    <script>
+        $(document).ready(function myfunction() {
+            $(".myTable").DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json",
+                },
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ],
+                responsive: false,
+                pageLength: 25,
+                ordering: false
+            });
+        })
+
+
+    </script>
+}
